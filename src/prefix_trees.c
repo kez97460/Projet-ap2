@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "prefix_trees.h"
+#include "utilities.h"
 
 prefix_tree create_node()
 {
@@ -35,7 +36,7 @@ if(new_number<0)
     new_number = node->nb_occ; // set new_number to the correct amount
 }
 
-prefix_tree node = root; // reset tree
+node = root; // reset tree
 for(int i = 0; i < length; i++)
 {
     index = /*get_char(letter)*/(int) word[i] - 'a';
@@ -44,7 +45,7 @@ for(int i = 0; i < length; i++)
         printf("ERROR : word does not exist, could not update");
         return;
     }
-    node->nb_occ = min(node->nb_occ, new_number); // update each letter
+    node->nb_occ = min_2_int(node->nb_occ, new_number); // update each letter
     node = node->children[index];
 }
 }
