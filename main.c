@@ -1,14 +1,13 @@
 #include <stdio.h>
-#include <string.h>
-#include "read.h"
 
-void main()
-{
-    char FILE_NAME[30] = "data/liste_francais.txt";
+int main() {
     
-    for(int i = 0; i <= strlen(FILE_NAME); i++)
-    {
-        printf("%d ", char_to_int(FILE_NAME[i]));
-    }
-    printf("\n");
+    char entry[30];
+    printf("Please write something\n");
+    scanf("%30s", entry);
+    printf("You wrote %s\n", entry);
+
+    user_words_writing("data/mots_courants.txt", entry);
+
+    return 0;
 }
