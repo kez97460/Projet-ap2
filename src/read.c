@@ -3,8 +3,7 @@
 #include <string.h>
 #include <stdio.h>
 
-
-int read_print(char* FILE_NAME)
+int read_print(char *FILE_NAME)
 {
   FILE *file;
   int i = 0;
@@ -12,7 +11,7 @@ int read_print(char* FILE_NAME)
 
   file = fopen(FILE_NAME, "r");
 
-  while((fscanf(file, "%s", storage)) == 1)
+  while ((fscanf(file, "%s", storage)) == 1)
     i++;
 
   fclose(file);
