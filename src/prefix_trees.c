@@ -6,7 +6,7 @@
 
 /* Creation of the structure */
 
-// creates an empty 
+// creates an empty prefix_tree and returns it
 prefix_tree create_node()
 {
 prefix_tree tree = (prefix_tree) malloc(sizeof(tree_node));
@@ -30,7 +30,7 @@ if(new_number<0)
         index = char_to_int(word[i]);
         if(node->children[index] == NULL)
         {
-            printf("ERROR : word does not exist, could not update");
+            printf("Error : word does not exist, could not update");
             return;
         }
         node = node->children[index];
@@ -38,12 +38,12 @@ if(new_number<0)
     new_number = node->nb_occ; // set new_number to the correct amount
 }
 node = root; // reset tree
-for(int i = 0; i < length; i++)
+for(int i = 0; i <= length; i++)
 {
     index = char_to_int(word[i]);
     if(node->children[index] == NULL)
     {
-        printf("ERROR : word does not exist, could not update");
+        printf("Error : word does not exist, could not update");
         return;
     }
     node->nb_occ = max_2_int(node->nb_occ, new_number); // update each letter
@@ -78,100 +78,153 @@ update_word(root, word, new_number); // use new_number to avoid a useless traver
 // This optimisation is extremely useless, as only halves the time taken by update_word, but I like it
 }
 
-/*------------*/
-/* Prediction */
-/*------------*/
-
-// merge_sort + lists ? 
-
-int get_nb_occ_children(prefix_tree node, int index)
+// Has to be done someday. BUT NOT TODAY
+void update_entire_tree(prefix_tree root)
 {
-if(node->children[index] == NULL)
+return;
+}
+
+/*------------------*/
+/*--- Prediction ---*/
+/*------------------*/
+
+// merge_sort + lists ? -> not efficient on large trees 
+
+// frees all the children of a node
+void free_all_children(prefix_tree node)
 {
+    for(int i = 0; i < NB_CHARS; i++)
+    {
+        free(node->children[i]);
+        node->children[i] = NULL;
+    }
+}
+
+// "reads" a letter in a prefix tree, going to the corresponding subtree. Returns 0 if subtree is empty
+int read_letter(prefix_tree* root_pointer, char letter)
+{
+    if(*root_pointer == NULL)
+    {
+        return 0;
+    }
+    if(((*root_pointer)->children[char_to_int(letter)]) != NULL)
+    {
+        *root_pointer = (*root_pointer)->children[char_to_int(letter)];
+        return 1;
+    }
     return 0;
 }
-return node->children[index]->nb_occ;
-}
 
+// "reads" each letter of the word, going to the corresponding subtree. Returns 1 if the subtree exists, stops and returns 0 otherwise.
+int read_word(prefix_tree* root_pointer, char* word)
+{
+    int letter_exists;
+    int length = strlen(word);
+    for(int i = 0; i < length; i++)
+    {
+        letter_exists = read_letter(root_pointer, word[i]);
+        if(!letter_exists)
+        {
+            return 0;
+        }
+    }
+    return 1;
+}
 
 int index_most_common_children(prefix_tree node)
 {
+if(node == NULL)
+{
+    printf("Error : trying to compare children of an empty node \n");
+    return 0;
+}
 int nb_occ_child;
-int res = 0;
+int maxi = 0;
+int res = -1; // return -1 if every node is empty
 for(int i = 0; i<NB_CHARS; i++)
 {
-    nb_occ_child = get_nb_occ_children(node, i);
-    if(res < nb_occ_child)
+    if(node->children[i] != NULL)
+        nb_occ_child = node->children[i]->nb_occ;
+    else
+        nb_occ_child = 0;
+    if(maxi < nb_occ_child)
     {
-        res = nb_occ_child;
+        maxi = nb_occ_child;
+        res = i;
     }
 }
 return res;
 }
 
-// sets nb_occ for a word to 0, updates the tree and returns what that number was
-int remove_all_occs(prefix_tree root, char* word)
-{
-// This function works by first modifying the nb_occ for the end of the word ('\0') to 0
-// It then modifies nb_occ for every letter of the word, starting from the end 
-// The complexity is really bad O(n^2) , but this doesn't matter as the function is executed on words of small size, 
-// and only 2 times on each user input
-prefix_tree node = root; // used to go through the tree
-int length = strlen(word);
-int index;
-for(int i = 0; i <= length; i++)
-{
-    index = char_to_int(word[i]);
-    if(node->children[index] == NULL)
-    {
-        printf("ERROR : word does not exist, could not update");
-        return -1;
-    }
-    node = node->children[index];
-}
-int res = node->nb_occ; // save the old nb_occ of the word to return it
-node->nb_occ = 0; // set old_nb_occ for the end of the word to 0
-for(int depth = length; depth > 0; depth--)
-{
-    node = root; // reset tree
-    for(int i = 0; i < depth; i++) // go to the last remaining letter
-    {
-        index = char_to_int(word[i]);
-        if(node->children[index] == NULL)
-        {
-            printf("ERROR : word does not exist, could not update");
-            return -1;
-        }
-        node = node->children[index];
-    }
-    node->nb_occ = node->children[index_most_common_children(node)]->nb_occ; // set nb_occ to hte max of the nb_occ of the children
-}
-return res;
-}
-
-word_array get_most_common_words(prefix_tree root, int n)
+char* get_most_common_word(prefix_tree root)
 {
 prefix_tree node = root;
-int* memory_nb_occ = (int*) malloc(n * sizeof(int));
 int index;
-int char_index;
-word_array res = create_empty_word_array(n);
-for(int i = 0; i < n; i++)
+char* res = (char*) malloc(MAX_WORD_LENGTH * sizeof(char));
+// strcpy(res, ""); 
+while ((index = index_most_common_children(node)) != 0)
 {
-    char_index = 0;
-    do
+    add_char(res, int_to_char(index));
+    if(node == NULL)
     {
-        index = index_most_common_children(node);
-        res.words[i][char_index] = (char) index;
-        char_index++;
-        node = node->children[index];
-    } while (index != 0);
-    memory_nb_occ[i] = remove_all_occs(root, res.words[i]); // temporarily remove the word from the root tree
+        printf("Error : word does not exist. WHAT. HOW. Wait is that tree EMPTY ???? \n");
+        return NULL;
+    }
+    node = node->children[index];
+} 
+return res;
 }
-for(int i = 0; i < n; i++)
+
+// Deletes a word from the tree. Sets useless nodes to NULL. Returns the nb_occ of the deleted word. 
+int delete_word(prefix_tree root, char* word)
 {
-    update_word(root, res.words[i], memory_nb_occ[i]); // re-add the words to the root tree
+int index_to_copy;
+// if i don't do that i get a segfault
+char w[MAX_WORD_LENGTH];
+strcpy(w, word);
+
+prefix_tree node = root;
+if(!read_word(&node, word)) // goes to the end of word, returns 0 if the word doesn't exist
+{
+    printf("Warning : can't delete a word that doesn't exist\n");
+    return 0;
+}
+int res = node->children[0]->nb_occ; // res = nb_occ of deleted word
+free_all_children(node->children[0]);
+node->children[0] = NULL;  // delete the '\0' marknig end of word in the tree
+
+while(strcmp(w, "")) // w != ""
+{
+    node = root;
+    read_word(&node, w); // go to subtree
+    node->nb_occ = 0;
+    if(index_most_common_children(node) == -1)
+    {
+        free_all_children(node);
+        node = NULL;
+    }
+    else
+    {
+        node->nb_occ = node->children[index_most_common_children(node)]->nb_occ;
+    }
+    delete_last_char(w);
 }
 return res;
 }
 
+word_array get_most_common_words(prefix_tree root, int nb_words)
+{
+word_array res = create_empty_word_array(nb_words);
+int* save_nb_occ = (int*) malloc(nb_words * sizeof(int));
+for(int i = 0; i < nb_words; i++)
+{
+    strcpy(res.words[i], get_most_common_word(root)); // add a word
+    save_nb_occ[i] = delete_word(root, res.words[i]); // delete it from the tree
+}
+for(int i = 0; i < nb_words; i++) // re-add the deleted words to the tree
+{
+    add_word(root, res.words[i]);
+    update_word(root, res.words[i], save_nb_occ[i]);
+}
+return res;
+}

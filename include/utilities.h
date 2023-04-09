@@ -13,7 +13,13 @@ typedef struct _word_array{
 } word_array;
 
 int max_2_int(int a, int b);
+int min_2_int(int a, int b);
+/* Transform chars to indexes for the prefix_tree*/
 int char_to_int(char letter);
+char int_to_char(int n);
+/* String and word_array manipulation */
 word_array create_empty_word_array(int nb_words);
+void add_char(char* str, char c);
+char delete_last_char(char *str) ;
 
 #endif
