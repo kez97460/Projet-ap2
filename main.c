@@ -1,7 +1,11 @@
 #include <stdio.h>
+#include <string.h>
+#include "read.h"
+#include "utilities.h"
+#include "prefix_trees.h"
 
-int main() {
-    
+int main() 
+{
     char entry[30];
     printf("Please write something\n");
     scanf("%30s", entry);

@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS= -I./include
+CFLAGS= -I./include -g
 LDFLAGS=
 
 SRCDIR=./src

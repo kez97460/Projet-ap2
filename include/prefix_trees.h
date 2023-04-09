@@ -2,6 +2,9 @@
 #define PREFIX_TREES_H
 
 #define NB_CHARS 27 // 27 possibilities for a letter : [a-z] or \0
+#define MAX_WORD_LENGTH 32 // max length of a word
+
+#include "utilities.h"
 
 typedef struct _tree_node
 {
@@ -11,6 +14,20 @@ typedef struct _tree_node
 }tree_node;
 
 typedef tree_node* prefix_tree;
+
+/* Constructing tree */
+prefix_tree create_node();
+void update_word(prefix_tree root, char* word, int new_number);
+int add_word(prefix_tree root, char* word);
+void add_and_update_word(prefix_tree root, char* word);
+/* Reading from tree */
+char* get_most_common_word(prefix_tree root);
+int delete_word(prefix_tree root, char* word);
+word_array get_most_common_words(prefix_tree root, int nb_words);
+
+// for testing, to be removed
+int index_most_common_children(prefix_tree node);
+int read_word(prefix_tree* root_pointer, char* word);
 
 
 #endif
