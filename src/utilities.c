@@ -34,7 +34,7 @@ int char_to_int(char letter)
     {
         return ascii - 96;
     }
-
+    printf("Error : Invalid char, should be [a-z], [A-Z] or '\\0'\n");
     return -1;
 }
 
@@ -84,7 +84,7 @@ char delete_last_char(char *str)
     char res = 0;
     if (len > 0) 
     {
-        res = str[len];
+        res = str[len-1];
         str[len - 1] = '\0'; // set the last character to null terminator
     }
     return res;
