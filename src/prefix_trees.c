@@ -78,10 +78,11 @@ update_word(root, word, new_number); // use new_number to avoid a useless traver
 // This optimisation is extremely useless, as only halves the time taken by update_word, but I like it
 }
 
-// Has to be done someday. BUT NOT TODAY
-void update_entire_tree(prefix_tree root)
+// updates the nb_occ of the \0 at the end of a word to the specified number
+void update_nb_occ(prefix_tree root, char* word, int nb)
 {
-return;
+    read_word(&root, word);
+    root->children[0]->nb_occ = nb;
 }
 
 /*------------------*/
@@ -158,10 +159,14 @@ return res;
 
 char* get_most_common_word(prefix_tree root)
 {
+if(root == NULL)
+{
+    return "";
+}
 prefix_tree node = root;
 int index;
 char* res = (char*) malloc(MAX_WORD_LENGTH * sizeof(char));
-// strcpy(res, ""); 
+strcpy(res, ""); 
 while ((index = index_most_common_children(node)) != 0)
 {
     add_char(res, int_to_char(index));
@@ -178,53 +183,53 @@ return res;
 // Deletes a word from the tree. Sets useless nodes to NULL. Returns the nb_occ of the deleted word. 
 int delete_word(prefix_tree root, char* word)
 {
-int index_to_copy;
-// if i don't do that i get a segfault
-char w[MAX_WORD_LENGTH];
-strcpy(w, word);
+    // if i don't do that i get a segfault
+    char w[MAX_WORD_LENGTH];
+    strcpy(w, word);
 
-prefix_tree node = root;
-if(!read_word(&node, word)) // goes to the end of word, returns 0 if the word doesn't exist
-{
-    printf("Warning : can't delete a word that doesn't exist\n");
-    return 0;
-}
-int res = node->children[0]->nb_occ; // res = nb_occ of deleted word
-free_all_children(node->children[0]);
-node->children[0] = NULL;  // delete the '\0' marknig end of word in the tree
+    prefix_tree node = root;
+    if(!read_word(&node, word)) // goes to the end of word, returns 0 if the word doesn't exist
+    {
+        printf("Warning : can't delete a word that doesn't exist\n");
+        return 0;
+    }
+    int res = node->children[0]->nb_occ; // res = nb_occ of deleted word
+    free_all_children(node->children[0]);
+    node->children[0] = NULL;  // delete the '\0' marknig end of word in the tree
 
-while(strcmp(w, "")) // w != ""
-{
-    node = root;
-    read_word(&node, w); // go to subtree
-    node->nb_occ = 0;
-    if(index_most_common_children(node) == -1)
+    do
     {
-        free_all_children(node);
-        node = NULL;
-    }
-    else
-    {
-        node->nb_occ = node->children[index_most_common_children(node)]->nb_occ;
-    }
-    delete_last_char(w);
-}
-return res;
+        node = root; // reset node
+        read_word(&node, w); // go to subtree
+        node->nb_occ = 0;
+        if(index_most_common_children(node) == -1)
+        {
+            free_all_children(node);
+            node = NULL;
+        }
+        else
+        {
+            node->nb_occ = node->children[index_most_common_children(node)]->nb_occ;
+        }
+    } while(delete_last_char(w)); // while string not empty, delete last char.
+
+    return res;
 }
 
 word_array get_most_common_words(prefix_tree root, int nb_words)
 {
-word_array res = create_empty_word_array(nb_words);
-int* save_nb_occ = (int*) malloc(nb_words * sizeof(int));
-for(int i = 0; i < nb_words; i++)
-{
-    strcpy(res.words[i], get_most_common_word(root)); // add a word
-    save_nb_occ[i] = delete_word(root, res.words[i]); // delete it from the tree
-}
-for(int i = 0; i < nb_words; i++) // re-add the deleted words to the tree
-{
-    add_word(root, res.words[i]);
-    update_word(root, res.words[i], save_nb_occ[i]);
-}
-return res;
+    word_array res = create_empty_word_array(nb_words);
+    int* save_nb_occ = (int*) malloc(nb_words * sizeof(int));
+    for(int i = 0; i < nb_words; i++)
+    {
+        strcpy(res.words[i], get_most_common_word(root)); // add a word
+        save_nb_occ[i] = delete_word(root, res.words[i]); // delete it from the tree
+    }
+    for(int i = 0; i < nb_words; i++) // re-add the deleted words to the tree
+    {
+        add_word(root, res.words[i]);
+        update_nb_occ(root, res.words[i], save_nb_occ[i]);
+        update_word(root, res.words[i], save_nb_occ[i]);
+    }
+    return res;
 }

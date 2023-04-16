@@ -62,6 +62,7 @@ bizarres
 sur
 la
 ligne
+feur
 je
 ne
 tomberai
@@ -170,6 +171,7 @@ mail
 le
 compte
 rendu
+feur
 de
 la
 reunion
@@ -311,6 +313,7 @@ avais
 envie
 de
 reprendre
+feur
 contact
 on
 attend
@@ -450,6 +453,7 @@ cent
 kilos
 au
 developpe
+feur
 couche
 de
 ou
@@ -684,6 +688,7 @@ monter
 ca
 est
 ai
+feur
 reserve
 mes
 billets
@@ -1013,6 +1018,7 @@ tu
 attaque
 si
 ton
+feur
 bon
 rien
 de
@@ -1023,7 +1029,7 @@ dans
 les
 parages
 remettre
-ça
+ca
 jeudi
 mon
 coup
@@ -1274,6 +1280,7 @@ bleu
 de
 papa
 pour
+feur
 payer
 inquiete
 pas
@@ -1421,6 +1428,7 @@ dlaumor
 odarres
 un
 epicurien
+feur
 russe
 une
 trentaine
@@ -1736,7 +1744,7 @@ prends
 pour
 la
 rez
-ça
+ca
 devrait
 le
 faire
@@ -1754,7 +1762,7 @@ la
 sauce
 speciale
 algerienne
-samouraï
+samourai
 cc
 je
 ai
@@ -1776,6 +1784,7 @@ je
 suis
 bien
 arrivee
+feur
 merci
 pour
 la
@@ -1830,7 +1839,7 @@ des
 grosses
 erreurs
 normalement
-ça
+ca
 va
 je
 viens
@@ -2578,4 +2587,4 @@ des
 artistes
 plus
 connus
-
+feur
