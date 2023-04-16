@@ -52,3 +52,18 @@ void write_prefix_tree(prefix_tree tree, char *filename)
   fclose(file);
   printf("Wrote %d words to the file %s \n", wordcount, filename);
 }
+
+void user_words_writing(char* FILE_NAME, char* word)
+{
+    FILE *file = fopen(FILE_NAME, "a");
+
+    if (file == NULL) {
+        printf("Issues with the memory file\n");
+        return;
+    }
+    
+    fprintf(file, "\n");
+    fprintf(file, "%s", word);
+
+    fclose(file);
+}
