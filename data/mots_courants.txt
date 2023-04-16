@@ -2588,7 +2588,6 @@ artistes
 plus
 connus
 feur
-=======
 coucou
 comment
 tu
@@ -3614,7 +3613,7 @@ dans
 les
 parages
 remettre
-ça
+ca
 jeudi
 mon
 coup
@@ -4327,7 +4326,7 @@ prends
 pour
 la
 rez
-ça
+ca
 devrait
 le
 faire
@@ -4345,7 +4344,7 @@ la
 sauce
 speciale
 algerienne
-samouraï
+samourai
 cc
 je
 ai
@@ -4421,7 +4420,7 @@ des
 grosses
 erreurs
 normalement
-ça
+ca
 va
 je
 viens
@@ -5169,4 +5168,10 @@ des
 artistes
 plus
 connus
-
+arem
+arem
+feur
+fait
+ai
+feur
+alleche

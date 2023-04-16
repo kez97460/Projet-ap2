@@ -34,7 +34,7 @@ int char_to_int(char letter)
     {
         return ascii - 96;
     }
-    printf("Error : Invalid char, should be [a-z], [A-Z] or '\\0'\n");
+    printf("Error : Invalid char '%c', should be [a-z], [A-Z] or '\\0'\n",letter);
     return -1;
 }
 

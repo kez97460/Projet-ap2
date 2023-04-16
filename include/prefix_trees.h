@@ -1,9 +1,6 @@
 #ifndef PREFIX_TREES_H
 #define PREFIX_TREES_H
 
-#define NB_CHARS 27 // 27 possibilities for a letter : [a-z] or \0
-#define MAX_WORD_LENGTH 32 // max length of a word
-
 #include "utilities.h"
 
 typedef struct _tree_node
