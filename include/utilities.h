@@ -5,7 +5,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MAX_WORD_LENGTH 32
+#define NB_CHARS 27 // 27 possibilities for a letter : [a-z] or \0
+#define MAX_WORD_LENGTH 32 // max length of a word
 
 typedef struct _word_array{
     char** words;

@@ -159,7 +159,7 @@ return res;
 
 char* get_most_common_word(prefix_tree root)
 {
-if(root == NULL)
+if(root == NULL || index_most_common_children(root) == -1)
 {
     return "";
 }
@@ -183,6 +183,10 @@ return res;
 // Deletes a word from the tree. Sets useless nodes to NULL. Returns the nb_occ of the deleted word. 
 int delete_word(prefix_tree root, char* word)
 {
+    if(!strcmp(word, ""))
+    {
+        return 0;
+    }
     // if i don't do that i get a segfault
     char w[MAX_WORD_LENGTH];
     strcpy(w, word);
