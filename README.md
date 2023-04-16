@@ -11,6 +11,29 @@ L'ensemble du code de ce projet est écrit et commenté **en anglais**. Seul ce 
 La suite de ce README a pour objectif d'expliquer les choix qui ont été faits lors de la réalisation du projet. 
 
 # Réalisation
+
+## Menu
+Afin d'utiliser le menu, lancez l'application puis suivez les consignes données.
+
+### Ajouts de mots courants
+En appuyant sur a, vous obtiendrez la possibilité des mots à la base de données.
+
+### Prédiction de mot
+En appuyant sur p, vous aurez à la principale fonctionnalité du programme. En entrant un début de mot et en appuyant sur entrée, vous aurez les 3 premières proposition classées par ordre de récurrence qui s'afficheront.
+
+Il est à noté qu'il aurait été totalement faisable de faire un programme proposant en temps réel les suggestions par l'intermédiaire de fonctions comme getchar(). Cependant cette solution aurait necessité que le programme ne puisse être exécuté que sur Linux, ce que nous avons jugé trop restrictif compte tenu de la portabilité du programme.
+
+Sinon, le fonctionnement interne et le type de structure de données utilisées sont plus détaillés à la suite de ce README.md.
+
+### Quitter le programme
+En appuyant sur q, vous quitterez le programme, évitant un ctrl + C à l'utilisateur.
+
+### Ajouts de mots courants
+En appuyant sur a, vous obtiendrez la possibilité des mots à la base de données.
+
+### Rappel des commandes utilisables
+Si l'utilisateur se trompe de commande, ou ne souviens plus. Il peut simplement tapé une chaîne de caractères autre que celles présentées. Ainsi un rappel des commandes s'affichera.
+
 ## Structures de données utilisées
 
 ### Définition
@@ -117,3 +140,4 @@ Cette simplicité a grandement aidé à la détection de bugs.
 
 Il est actuellement impossible de stocker des mots composés car seuls les caractères \[a-z\] sont supportés par la structure.  
 Il serait cependant assez simple de l'étendre pour inclure plus de caractères (il suffit de modifier le nombre de fils, et la fonction qui transforme les char en un indice). 
+
